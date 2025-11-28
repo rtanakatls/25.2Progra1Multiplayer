@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 using Unity.Collections;
+using UnityEditor;
 
 public class Player : NetworkBehaviour
 {
@@ -14,6 +15,10 @@ public class Player : NetworkBehaviour
     [SerializeField] private Material enemyMaterial;
 
     [SerializeField] private TextMeshPro nameText;
+
+    [SerializeField] private GameObject bulletPrefab;
+
+    private Vector3 shootDirection;
 
     private MeshRenderer meshRenderer;
 
@@ -76,7 +81,26 @@ public class Player : NetworkBehaviour
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
             rb.linearVelocity = new Vector3(h * speed, rb.linearVelocity.y, v * speed);
+
+            if(h!=0||v!=0)
+            {
+                shootDirection = new Vector3(h, 0, v).normalized;
+            }
+
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                ShootRpc(shootDirection, transform.position);
+            }
         }
+    }
+
+    [Rpc(SendTo.Server)]
+    private void ShootRpc(Vector3 direction, Vector3 position)
+    {
+        GameObject obj = Instantiate(bulletPrefab);
+        obj.transform.position = position;
+        obj.GetComponent<Bullet>().Init(direction, OwnerClientId);
+        obj.GetComponent<NetworkObject>().Spawn();
     }
 
 }

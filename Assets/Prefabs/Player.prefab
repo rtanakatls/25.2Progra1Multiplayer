@@ -424,3 +424,4 @@ MonoBehaviour:
   playerMaterial: {fileID: 2100000, guid: 65fb21fcc6b291a4b8a634c23aee5d1c, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 9823c4096a347cd4683306cb6e133bf7, type: 2}
   nameText: {fileID: 3001840854950056766}
+  bulletPrefab: {fileID: 3074878320118635746, guid: ce49461df1dede948a6ac621d88eff99, type: 3}
