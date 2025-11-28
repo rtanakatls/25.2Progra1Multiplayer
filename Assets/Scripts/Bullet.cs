@@ -18,13 +18,11 @@ public class Bullet : NetworkBehaviour
 
     private void Start()
     {
-        NetworkLog.LogInfoServer("Bullet start " + ownerId);
-        if (!IsServer)
+        if (!HasAuthority)
         {
             return;
         }
 
-        NetworkLog.LogInfoServer("Bullet spawned by clientId: " + ownerId);
 
         rb = GetComponent<Rigidbody>();
     }
@@ -32,7 +30,7 @@ public class Bullet : NetworkBehaviour
 
     void Update()
     {
-        if (!IsServer)
+        if (!HasAuthority)
         {
             return;
         }
@@ -42,7 +40,7 @@ public class Bullet : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsServer)
+        if (!HasAuthority)
         {
             return;
         }
